@@ -1,0 +1,52 @@
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: site-fade-out 180ms ease-out both;
+}
+
+/* Incoming (new) page: fade + grow in from slightly smaller */
+::view-transition-new(root) {
+  animation: site-fade-in 220ms ease-in both;
+}
+
+@keyframes site-fade-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.98); }
+}
+
+@keyframes site-fade-in {
+  from { opacity: 0; transform: scale(1.02); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* 2. Breadcrumb layout only — no visual styling */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.breadcrumb li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breadcrumb li:not(:last-child)::after {
+  content: "/";
+}
+
+.breadcrumb a {
+  text-decoration: none;
+}
+
+.breadcrumb [aria-current="page"] {
+  font-weight: 600;
+}

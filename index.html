@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saleha Science Fest — Home</title>
+
+
+<link rel="stylesheet" href="interactions.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="logo">
+  <!-- LOGO -->
+    <div class="logo-placeholder">SSF</div>
+    <span>SALEHA SCIENCE FEST</span>
+  </a>  <nav class="site-nav">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="articles.html">Articles</a></li>
+      <li><a href="register.html">Register</a></li>
+      <li><a href="schedule.html">Schedule</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<nav class="breadcrumb-wrap" aria-label="Breadcrumb">
+  <ol class="breadcrumb">
+    <li aria-current="page">Home</li>
+  </ol>
+</nav>
+
+<main>
+
+  <div id="science-bg-container"></div>
+
+  <section class="hero">
+    <p class="eyebrow">Saleha Science Fest 2026</p>
+    <h1>Where curious minds build, test, and break things — together.</h1>
+    <h3>"The important thing is not to stop questioning. Curiosity has its own reason for existing."
+-Albert Einstein (Nobel Laureate in Physics)</h3>
+    <h3>"I would rather have questions that can't be answered than answers that can't be questioned."
+— Richard Feynman (Nobel Laureate in Physics)</h3>
+    <p class="hero-lead">​Forget the textbooks. Science was never meant to be memorized- it was built to be tested.
+​The Sirajganj Town Science Fest isn't just another competition. It is an arena created by students, for students, to bring the ultimate academic stage right here to our town. Whether you're here to solve tough logic puzzles, prove your mastery in physics and chemistry or step up to the mic, this is your platform to show everyone what you're capable of.
+​Bring your sharpest thinking, represent your school, and take your spot among the brightest young minds in the region.</p>
+    <div class="hero-actions">
+      <a href="register.html" class="btn btn-primary">Reserve your seat now</a>
+      <a href="schedule.html" class="btn btn-secondary">Check out our plan</a>
+    </div>
+  </section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+  (function() {
+      const container = document.getElementById('science-bg-container');
+      if (!container) return;
+
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(55, width / height, 0.1, 1000);
+      camera.position.z = 15;
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      container.appendChild(renderer.domElement);
+
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+      scene.add(ambientLight);
+
+      const pointLight = new THREE.PointLight(0xffffff, 1);
+      pointLight.position.set(10, 10, 10);
+      scene.add(pointLight);
+
+      const COLOR_INDIGO = 0x2f6fed;  
+      const COLOR_AMBER  = 0x4fd1e8;   
+      const COLOR_MAGENTA = 0xff6b5e; 
+      const COLOR_ORBIT  = 0x8fb8f7;   
+      const atomGroup = new THREE.Group();
+
+      const nucleusGroup = new THREE.Group();
+      const nucleonGeo = new THREE.SphereGeometry(0.45, 20, 20);
+      const protonMat = new THREE.MeshPhongMaterial({ color: COLOR_AMBER, shininess: 60 });
+      const neutronMat = new THREE.MeshPhongMaterial({ color: COLOR_MAGENTA, shininess: 60 });
+      const nucleonCount = 14;
+      for (let i = 0; i < nucleonCount; i++) {
+          const mat = i % 2 === 0 ? protonMat : neutronMat;
+          const nucleon = new THREE.Mesh(nucleonGeo, mat);
+          const r = 0.9 * Math.cbrt(Math.random());
+          const theta = Math.random() * Math.PI * 2;
+          const phi = Math.acos(2 * Math.random() - 1);
+          nucleon.position.set(
+              r * Math.sin(phi) * Math.cos(theta),
+              r * Math.sin(phi) * Math.sin(theta),
+              r * Math.cos(phi)
+          );
+          nucleusGroup.add(nucleon);
+      }
+      atomGroup.add(nucleusGroup);
+
+     
+      const orbitRadius = 5.2;
+      const orbitMat = new THREE.LineBasicMaterial({ color: COLOR_ORBIT, transparent: true, opacity: 0.35 });
+      const electronGeo = new THREE.SphereGeometry(0.28, 16, 16);
+      const electronMat = new THREE.MeshPhongMaterial({ color: COLOR_INDIGO, shininess: 90 });
+
+      const orbits = [];
+      const tilts = [
+          new THREE.Euler(0, 0, 0),
+          new THREE.Euler(Math.PI / 2.4, Math.PI / 5, 0),
+          new THREE.Euler(-Math.PI / 3, -Math.PI / 4, Math.PI / 6)
+      ];
+
+      tilts.forEach((tilt, i) => {
+          const orbitGroup = new THREE.Group();
+          orbitGroup.rotation.copy(tilt);
+
+          const ringPoints = [];
+          const segments = 96;
+          for (let s = 0; s <= segments; s++) {
+              const a = (s / segments) * Math.PI * 2;
+              ringPoints.push(new THREE.Vector3(Math.cos(a) * orbitRadius, 0, Math.sin(a) * orbitRadius));
+          }
+          const ringGeo = new THREE.BufferGeometry().setFromPoints(ringPoints);
+          const ring = new THREE.Line(ringGeo, orbitMat);
+          orbitGroup.add(ring);
+
+          const electron = new THREE.Mesh(electronGeo, electronMat);
+          orbitGroup.add(electron);
+
+          atomGroup.add(orbitGroup);
+          orbits.push({ group: orbitGroup, electron: electron, angle: Math.random() * Math.PI * 2, speed: 0.4 + i * 0.15 });
+      });
+
+      atomGroup.rotation.set(0.15, -0.3, 0.1);
+      scene.add(atomGroup);
+
+      
+      const starCount = 260;
+      const starPositions = new Float32Array(starCount * 3);
+      for (let i = 0; i < starCount; i++) {
+          starPositions[i * 3] = (Math.random() - 0.5) * 60;
+          starPositions[i * 3 + 1] = (Math.random() - 0.5) * 60;
+          starPositions[i * 3 + 2] = (Math.random() - 0.5) * 40 - 10;
+      }
+      const starGeo = new THREE.BufferGeometry();
+      starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+      const starMat = new THREE.PointsMaterial({ color: 0xaecdf2, size: 0.18, transparent: true, opacity: 0.6 });
+      const starField = new THREE.Points(starGeo, starMat);
+      scene.add(starField);
+
+      const clock = new THREE.Clock();
+
+      function animate() {
+          requestAnimationFrame(animate);
+          const dt = clock.getDelta();
+
+          atomGroup.rotation.y += 0.15 * dt;
+          nucleusGroup.rotation.y += 0.3 * dt;
+
+          orbits.forEach(o => {
+              o.angle += o.speed * dt;
+              o.electron.position.set(
+                  Math.cos(o.angle) * orbitRadius,
+                  0,
+                  Math.sin(o.angle) * orbitRadius
+              );
+          });
+
+          starField.rotation.y += 0.01 * dt;
+
+          renderer.render(scene, camera);
+      }
+      animate();
+
+      window.addEventListener('resize', () => {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          camera.aspect = width / height;
+          camera.updateProjectionMatrix();
+          renderer.setSize(width, height);
+      });
+  })();
+</script>
+
+  <section class="home-highlights">
+    <h2>What Awaits You</h2>
+    <div class="highlight-grid">
+      <article class="highlight-card">
+        <h3>​Live Stage & Rapid-Fire Quizzes</h3>
+      </article>
+      <article class="highlight-card">
+        <h3>​Interactive School Stalls & Exhibits</h3>
+      </article>
+      <article class="highlight-card">
+        <h3>31 Regional Honors & Trophies</h3>
+      </article>
+    </div>
+  </section>
+
+  <section class="home-cta">
+    <h2>Get involved</h2>
+    <p>​Step up, represent your school, and make your mark.</p>
+    <p>Whether you want to participate,volunteer, exhibit,or host a stall,there's a place for you.</p>
+    <a href="register.html" class="btn btn-primary">Get Started</a>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>SALEHA SCIENCE FEST — a student-run science festival.</p>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="articles.html">Articles</a></li>
+    <li><a href="register.html">Register</a></li>
+    <li><a href="schedule.html">Schedule</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <p class="footer-note">© 2026 SALEHA SCIENCE FEST</p>
+</footer>
+
+</body>
+</html>
