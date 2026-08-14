@@ -1,0 +1,678 @@
+/* ============================================================
+   style.css — Saleha Science Fest
+   ------------------------------------------------------------
+   Direction: a dark research-lab notebook — deep navy-black
+   ground, faint blue graph-paper grid, and marker-pen accents.
+   Three "specimen" accent colors (indigo / amber / magenta)
+   standing in for the three basic atomic particles, plus a mono
+   "instrument label" type for eyebrows/tags/data.
+
+   Palette:
+     --c-bg      #05070f  near-black navy ground
+     --c-panel   #0e1526  card fill
+     --c-ink     #eef1fb  primary text (near-white)
+     --c-sub     #9aa5c9  secondary text (muted blue-grey)
+     --c-indigo  #5b7cfa  primary accent — electrons / links
+     --c-amber   #f2a93c  secondary accent — nucleus / CTAs
+     --c-magenta #e6559c  tertiary accent — highlights, tags
+     --c-line    rgba(150,175,255,.14)  hairline borders
+
+   Type:
+     Space Grotesk   — headings / display
+     Plus Jakarta Sans — body copy
+     IBM Plex Mono   — eyebrows, tags, timestamps, breadcrumb
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --c-bg: #05070f;
+  --c-bg-soft: #0a0f1e;
+  --c-panel: #0e1526;
+  --c-panel-soft: #121a30;
+  --c-line: rgba(150, 175, 255, 0.14);
+  --c-line-strong: rgba(150, 175, 255, 0.26);
+
+  --c-ink: #eef1fb;
+  --c-sub: #9aa5c9;
+
+  --c-indigo: #5b7cfa;
+  --c-amber: #f2a93c;
+  --c-magenta: #e6559c;
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --grid-line: rgba(91, 124, 250, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  color: var(--c-ink);
+  line-height: 1.65;
+  min-height: 100vh;
+  position: relative;
+  text-align: left;
+
+  background:
+    repeating-linear-gradient(0deg, var(--grid-line) 0px, var(--grid-line) 1px, transparent 1px, transparent 44px),
+    repeating-linear-gradient(90deg, var(--grid-line) 0px, var(--grid-line) 1px, transparent 1px, transparent 44px),
+    radial-gradient(ellipse 900px 520px at 10% -10%, rgba(91, 124, 250, 0.22), transparent 60%),
+    radial-gradient(ellipse 800px 560px at 100% 0%, rgba(91, 170, 250, 0.14), transparent 55%),
+    var(--c-bg);
+  background-attachment: fixed;
+}
+
+h1, h2, h3, .logo {
+  font-family: var(--font-display);
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--c-amber);
+  color: #1c1533;
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-indigo);
+  outline-offset: 3px;
+}
+
+/* 1. FIXED BACKGROUND SCIENCE CONTAINER (atom + starfield, sits behind content) */
+#science-bg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+/* 2. HEADER BANNER — built roomy since a real logo/banner is coming */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 6%;
+  background: rgba(5, 7, 15, 0.82);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--c-line-strong);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--c-ink);
+  text-decoration: none;
+  letter-spacing: -0.3px;
+}
+
+.logo-placeholder {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--c-indigo), var(--c-magenta));
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+}
+
+.site-nav ul {
+  display: flex;
+  gap: 1.8rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav a {
+  color: var(--c-sub);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+}
+
+.site-nav a:hover {
+  color: var(--c-magenta);
+  border-bottom-color: var(--c-magenta);
+}
+
+/* 3. BREADCRUMB */
+.breadcrumb-wrap {
+  padding: 0.7rem 6%;
+  background: var(--c-bg-soft);
+  border-bottom: 1px solid var(--c-line);
+}
+
+.breadcrumb {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.breadcrumb a {
+  color: var(--c-indigo);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--c-magenta);
+}
+
+.breadcrumb [aria-current="page"] {
+  color: var(--c-amber);
+  filter: brightness(0.85);
+}
+
+/* 4. HERO / PAGE INTRO — left-aligned, no centering anywhere */
+.hero, .page-intro {
+  padding: 5rem 6% 3rem 6%;
+  max-width: 950px;
+  margin: 0;
+  text-align: left;
+}
+
+.eyebrow {
+  display: inline-block;
+  color: var(--c-magenta);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--c-line-strong);
+}
+
+.hero h1, .page-intro h1 {
+  font-size: clamp(2.1rem, 4.2vw, 3.3rem);
+  line-height: 1.2;
+  font-weight: 700;
+  margin: 0.4rem 0 1.2rem 0;
+  color: var(--c-ink);
+  text-align: left;
+}
+
+.hero-lead, .lead {
+  color: var(--c-sub);
+  font-size: 1.15rem;
+  max-width: 700px;
+  text-align: left;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 0.8rem 1.7rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+  font-family: var(--font-body);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  display: inline-block;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--c-indigo), var(--c-magenta));
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(109, 94, 241, 0.28);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(230, 85, 156, 0.32);
+}
+
+.btn-secondary {
+  border: 1.5px solid var(--c-indigo);
+  color: var(--c-indigo);
+  background: transparent;
+}
+
+.btn-secondary:hover {
+  background: var(--c-indigo);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* 5. SECTION HEADINGS (used across home / about / etc.) */
+main > section > h2,
+.home-highlights h2,
+.about-focus h2,
+.about-team h2,
+.home-cta h2 {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 700;
+  color: var(--c-ink);
+  padding: 0 6%;
+  margin: 0 0 0.4rem 0;
+  text-align: left;
+  position: relative;
+}
+
+.home-highlights h2::after,
+.about-focus h2::after,
+.about-team h2::after,
+.home-cta h2::after {
+  content: "";
+  display: block;
+  width: 46px;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--c-amber), var(--c-magenta));
+  margin-top: 0.7rem;
+}
+
+.home-cta {
+  padding: 1rem 0 4rem 0;
+  text-align: left;
+}
+
+.home-cta p {
+  padding: 0 6%;
+  color: var(--c-sub);
+  max-width: 640px;
+  margin: 0.8rem 0 1.6rem 0;
+}
+
+.home-cta .btn {
+  margin-left: 6%;
+}
+
+/* 6. CARDS — index-card specimens, not glass panels */
+.highlight-grid, .article-list, .focus-list, .schedule-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.6rem;
+  padding: 0 6%;
+  margin: 2.2rem 0 3.4rem 0;
+  max-width: 1300px;
+}
+
+.highlight-card, .article-card, .focus-item, .schedule-item, .register-block, .contact-details {
+  background: var(--c-panel);
+  border: 1px solid var(--c-line);
+  border-radius: 10px;
+  padding: 1.9rem 1.9rem 1.9rem 2.1rem;
+  text-align: left;
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.highlight-card::before, .focus-item::before, .article-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  border-radius: 10px 10px 0 0;
+  background: var(--c-amber);
+}
+
+.highlight-card:nth-child(2)::before, .focus-item:nth-child(2)::before, .article-card:nth-child(2)::before {
+  background: var(--c-indigo);
+}
+
+.highlight-card:nth-child(3)::before, .focus-item:nth-child(3)::before, .article-card:nth-child(3)::before {
+  background: var(--c-magenta);
+}
+
+.highlight-card:hover, .article-card:hover, .focus-item:hover, .schedule-item:hover {
+  transform: translateY(-3px);
+  border-color: var(--c-line-strong);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+.highlight-card h3, .article-card h2, .focus-item h3 {
+  font-family: var(--font-display);
+  color: var(--c-ink);
+  font-size: 1.15rem;
+  margin-top: 0;
+}
+
+.highlight-card p, .focus-item p, .article-card p {
+  color: var(--c-sub);
+  margin-bottom: 0;
+}
+
+.tag {
+  color: var(--c-magenta);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.article-card h2 {
+  font-size: 1.25rem;
+  margin: 0.5rem 0 0.7rem 0;
+}
+
+.article-card h2 a {
+  text-decoration: none;
+  color: var(--c-ink);
+}
+
+.article-card h2 a:hover {
+  color: var(--c-indigo);
+}
+
+.read-more {
+  display: inline-block;
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--c-indigo);
+  text-decoration: none;
+  border-bottom: 1px solid var(--c-indigo);
+}
+
+.read-more:hover {
+  color: var(--c-magenta);
+  border-bottom-color: var(--c-magenta);
+}
+
+/* 7. FULL ARTICLE PAGE */
+.article-full {
+  padding: 3rem 6% 1rem 6%;
+  max-width: 760px;
+  text-align: left;
+}
+
+.article-full h1 {
+  font-size: clamp(2rem, 3.6vw, 2.7rem);
+  margin: 0.6rem 0 0.4rem 0;
+  color: var(--c-ink);
+}
+
+.article-meta {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--c-sub);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.article-full p {
+  color: var(--c-sub);
+  font-size: 1.05rem;
+}
+
+.back-link {
+  padding: 0 6% 4rem 6%;
+  max-width: 760px;
+}
+
+.back-link a {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: var(--c-indigo);
+  text-decoration: none;
+}
+
+.back-link a:hover {
+  color: var(--c-magenta);
+}
+
+/* 8. SCHEDULE — a real sequence, so it gets a running index */
+.schedule-list {
+  counter-reset: session;
+}
+
+.schedule-item {
+  padding-top: 2.4rem;
+}
+
+.schedule-item::after {
+  counter-increment: session;
+  content: "0" counter(session);
+  position: absolute;
+  top: 1rem;
+  right: 1.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: var(--c-sub);
+  opacity: 0.5;
+}
+
+.schedule-time {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: #fff;
+  background: var(--c-indigo);
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+  margin-bottom: 0.9rem;
+}
+
+.schedule-item h2 {
+  font-size: 1.15rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--c-ink);
+}
+
+.schedule-item p {
+  color: var(--c-sub);
+  margin: 0;
+}
+
+/* 9. ABOUT — team list */
+.about-team p {
+  color: var(--c-sub);
+  padding: 0 6%;
+  max-width: 700px;
+}
+
+.team-list {
+  list-style: none;
+  padding: 0 6%;
+  margin: 1.4rem 0 3.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  max-width: 700px;
+}
+
+.team-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.2rem;
+  background: var(--c-panel);
+  border: 1px solid var(--c-line);
+  border-radius: 8px;
+}
+
+.team-name {
+  font-weight: 600;
+  color: var(--c-ink);
+}
+
+.team-role {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--c-magenta);
+}
+
+.about-focus {
+  margin-top: 1rem;
+}
+
+/* 10. REGISTER — form embeds */
+.register-block {
+  margin: 0 6% 2.2rem 6%;
+  padding: 2rem;
+}
+
+.register-block h2 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  margin: 0 0 0.4rem 0;
+  color: var(--c-ink);
+}
+
+.register-block > p {
+  color: var(--c-sub);
+  margin-bottom: 1.4rem;
+}
+
+.form-embed {
+  border: 1px solid var(--c-line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--c-bg-soft);
+}
+
+.form-embed iframe {
+  display: block;
+  border: 0;
+  width: 100%;
+}
+
+/* 11. CONTACT */
+.contact-details {
+  margin: 0 6% 3.5rem 6%;
+  padding: 2rem 2.2rem;
+  max-width: 640px;
+}
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.contact-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.contact-list a {
+  color: var(--c-indigo);
+  text-decoration: none;
+}
+
+.contact-list a:hover {
+  color: var(--c-magenta);
+}
+
+.contact-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--c-magenta);
+}
+
+/* 12. FOOTER */
+.site-footer {
+  padding: 2.6rem 6%;
+  background: #02030a;
+  border-top: 1px solid var(--c-line-strong);
+  text-align: left;
+  margin-top: 4rem;
+  color: #b7c1e8;
+  font-size: 0.92rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+}
+
+.footer-links a {
+  color: #b7c1e8;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: var(--c-amber);
+}
+
+.footer-note {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  opacity: 0.7;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .hero, .page-intro {
+    padding: 3.5rem 6% 2rem 6%;
+  }
+
+  .home-cta .btn {
+    margin-left: 0;
+  }
+}
+
+/* MOTION SAFETY */
+@media (prefers-reduced-motion: reduce) {
+  .highlight-card, .article-card, .focus-item, .schedule-item, .btn {
+    transition: none;
+  }
+}
